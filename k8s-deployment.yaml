@@ -1,0 +1,134 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: sitecheckup
+  labels:
+    k8s-app: sitecheckup
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      k8s-app: sitecheckup
+  template:
+    metadata:
+      name: sitecheckup
+      labels:
+        k8s-app: sitecheckup
+    spec:
+      containers:
+        - name: sitecheckup-fe
+          image: ghcr.io/wooshcz/sitecheckup-fe
+          ports:
+            - containerPort: 8000
+              name: http-fe
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "256Mi"
+              cpu: "1"
+          imagePullPolicy: Always
+          securityContext:
+            privileged: false
+      imagePullSecrets:
+        - name: dockerconfigjson-github-com
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-fe
+  namespace: sitecheckup
+  labels:
+    k8s-app: sitecheckup
+spec:
+  selector:
+    k8s-app: sitecheckup
+  type: ClusterIP
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: http-fe
+      name: tcp-frontend
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: worker
+  namespace: sitecheckup
+  labels:
+    k8s-app: sitecheckup
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      k8s-app: sitecheckup
+  template:
+    metadata:
+      name: sitecheckup
+      labels:
+        k8s-app: sitecheckup
+    spec:
+      containers:
+        - name: sitecheckup-worker
+          image: ghcr.io/wooshcz/sitecheckup-worker
+          env:
+            - name: PGHOST
+              valueFrom:
+                configMapKeyRef:
+                  name: db-config
+                  key: host
+            - name: PGPORT
+              valueFrom:
+                configMapKeyRef:
+                  name: db-config
+                  key: port
+            - name: PGUSER
+              valueFrom:
+                configMapKeyRef:
+                  name: db-config
+                  key: user
+            - name: PGDATABASE
+              valueFrom:
+                configMapKeyRef:
+                  name: db-config
+                  key: database
+            - name: PGPASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: db-config
+                  key: password
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "100m"
+            limits:
+              memory: "2Gi"
+              cpu: "1"
+          imagePullPolicy: Always
+          securityContext:
+            privileged: false
+      imagePullSecrets:
+        - name: dockerconfigjson-github-com
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sitecheckup-ingress
+  namespace: sitecheckup
+spec:
+  ingressClassName: nginx
+  rules:
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: svc-fe
+                port:
+                  name: tcp-frontend

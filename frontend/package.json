@@ -1,0 +1,21 @@
+{
+	"name": "sitecheckup-frontend",
+	"version": "1.0.0",
+	"private": true,
+	"scripts": {
+		"dev": "vite dev",
+		"build": "vite build",
+		"preview": "vite preview"
+	},
+	"dependencies": {
+		"pg": "^8.10.0",
+		"bcrypt": "^5.1.0"
+	},
+	"devDependencies": {
+		"@sveltejs/adapter-node": "^1.2.3",
+		"@sveltejs/kit": "^1.5.0",
+		"svelte": "^3.54.0",
+		"vite": "^4.2.0"
+	},
+	"type": "module"
+}
