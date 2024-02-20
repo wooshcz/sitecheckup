@@ -1,4 +1,4 @@
-FROM node:18-bullseye
+FROM node:20-bookworm
 
 LABEL org.opencontainers.image.authors="wooshcz@gmail.com" \
     org.opencontainers.image.source=https://github.com/wooshcz/sitecheckup \
@@ -14,7 +14,7 @@ WORKDIR /usr/src/worker
 
 COPY app .
 
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --break-system-packages --no-cache-dir -r requirements.txt
 RUN npm install
 
 RUN curl "https://testssl.sh/testssl.sh-3.0.8.tar.gz" --output testssl.sh-3.0.8.tar.gz  && \

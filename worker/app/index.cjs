@@ -76,7 +76,6 @@ function run_testssl(hostname, job_id, opts) {
     db_client.query("UPDATE public.jobs SET status='STARTED' WHERE job_id=$1;", [job_id]);
     console.log(`${Date().toString()}: Job ${job_id} started`);
     const testSslCommand = './testssl.sh --logfile ' + job_id + '.log --jsonfile ' + job_id + '.json ' + opts.join(' ') + ' ' + hostname;
-    //console.log(testSslCommand);
     exec(testSslCommand + ' || true').then(() => {
         const jsonOutput = readFileSync(job_id + '.json', 'utf8');
         rm(job_id + '.json', () => { });
@@ -91,7 +90,6 @@ function run_linkchecker(url, job_id, opts) {
     db_client.query("UPDATE public.jobs SET status='STARTED' WHERE job_id=$1;", [job_id]);
     console.log(`${Date().toString()}: Job ${job_id} started`);
     const linkCheckerCommand = 'linkchecker ' + opts.join(' ') + ' ' + url;
-    //console.log(linkCheckerCommand);
     exec(linkCheckerCommand + ' || true').then(output => {
         console.log(output.stdout)
         const parser = new XMLParser();
@@ -151,5 +149,5 @@ async function main() {
     }
 }
 
-job_running = false
+let job_running = false
 main()
