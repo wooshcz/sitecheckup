@@ -1,4 +1,4 @@
-FROM node:18-bullseye-slim AS build
+FROM node:20-bookworm AS build
 
 WORKDIR /app
 
@@ -7,7 +7,7 @@ RUN npm install
 COPY . ./
 RUN npm run build && npm ci --omit dev
 
-FROM node:18-bullseye-slim
+FROM node:20-bookworm
 
 LABEL org.opencontainers.image.authors="wooshcz@gmail.com" \
     org.opencontainers.image.source=https://github.com/wooshcz/sitecheckup \

@@ -1,4 +1,4 @@
-FROM node:18-bullseye
+FROM node:20-bookworm
 
 LABEL org.opencontainers.image.authors="wooshcz@gmail.com" \
     org.opencontainers.image.source=https://github.com/wooshcz/sitecheckup \
