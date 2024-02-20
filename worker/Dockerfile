@@ -14,7 +14,7 @@ WORKDIR /usr/src/worker
 
 COPY app .
 
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --break-system-packages --no-cache-dir -r requirements.txt
 RUN npm install
 
 RUN curl "https://testssl.sh/testssl.sh-3.0.8.tar.gz" --output testssl.sh-3.0.8.tar.gz  && \
