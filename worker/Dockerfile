@@ -12,11 +12,12 @@ WORKDIR /usr/src/worker
 
 COPY app .
 
+ARG testssl_version=3.0.9
 RUN pip install --break-system-packages --no-cache-dir -r requirements.txt && npm install
-ADD https://testssl.sh/testssl.sh-3.0.9.tar.gz testssl.sh-3.0.9.tar.gz
-RUN tar -xvf testssl.sh-3.0.8.tar.gz && \
-    cd testssl.sh-3.0.8 && \
+ADD https://testssl.sh/testssl.sh-${testssl_version}.tar.gz testssl.sh-${testssl_version}.tar.gz
+RUN tar -xvf testssl.sh-${testssl_version}.tar.gz && \
+    cd testssl.sh-${testssl_version} && \
     mv bin etc testssl.sh ../ && \
-    rm -rf testssl.sh-3.0.8*
+    rm -rf testssl.sh-${testssl_version}*
 
 CMD [ "node", "index.cjs" ]
