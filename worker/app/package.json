@@ -4,9 +4,9 @@
   "version": "1.0.0",
   "author": "Ondrej Moravek",
   "dependencies": {
-    "fast-xml-parser": "^4.2.5",
-    "lighthouse": "^12.1.0",
-    "pg": "^8.10.0"
+    "fast-xml-parser": "^4.5.0",
+    "lighthouse": "^12.2.1",
+    "pg": "^8.13.1"
   },
   "license": "MIT",
   "main": "index.cjs",
