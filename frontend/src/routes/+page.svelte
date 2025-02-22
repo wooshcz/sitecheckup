@@ -7,7 +7,7 @@
 
 <main>
     <div class="container">
-        <h1 class="text-primary-emphasis my-3">Welcome to SiteCheckup!</h1>
+        <h1 class="text-primary-emphasis my-3">Welcome to SiteTest<sup>3</sup></h1>
         <div class="row">
             <div class="col-8">
                 <form method="POST" use:enhance>

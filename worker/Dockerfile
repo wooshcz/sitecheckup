@@ -1,4 +1,4 @@
-FROM node:20-bookworm
+FROM node:22-bookworm
 
 LABEL org.opencontainers.image.authors="wooshcz@gmail.com" \
     org.opencontainers.image.source=https://github.com/wooshcz/sitecheckup \
@@ -14,10 +14,11 @@ COPY app .
 
 ARG testssl_version=3.0.9
 RUN pip install --break-system-packages --no-cache-dir -r requirements.txt && npm install
-ADD https://testssl.sh/testssl.sh-${testssl_version}.tar.gz testssl.sh-${testssl_version}.tar.gz
-RUN tar -xvf testssl.sh-${testssl_version}.tar.gz && \
+
+RUN curl --output "testssl.sh-${testssl_version}.tar.gz" --silent "https://testssl.sh/testssl.sh-${testssl_version}.tar.gz" && \
+    tar -xvf testssl.sh-${testssl_version}.tar.gz && \
     cd testssl.sh-${testssl_version} && \
     mv bin etc testssl.sh ../ && \
-    rm -rf testssl.sh-${testssl_version}*
+    cd .. && rm -rf testssl.sh-${testssl_version}*
 
-CMD [ "node", "index.cjs" ]
+ENTRYPOINT [ "node", "index.cjs" ]

@@ -1,5 +1,4 @@
 import pg from 'pg'
-import { readFileSync } from 'fs';
 import bcrypt from "bcrypt";
 const { Client } = pg;
 
@@ -9,10 +8,6 @@ const config = {
     database: import.meta.env.VITE_PGDATABASE,
     password: import.meta.env.VITE_PGPASSWORD,
     port: import.meta.env.VITE_PGPORT,
-    ssl: {
-        rejectUnauthorized: false,
-        ca: readFileSync('./k8s-db-ca-certificate.crt').toString(),
-    },
 }
 
 const client = new Client(config);
