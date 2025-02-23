@@ -20,8 +20,8 @@ WORKDIR /app
 COPY --from=build /app/node_modules/ ./node_modules/
 COPY --from=build /app/build/ ./build/
 
-ENV HOST=${APP_HOST}
-ENV PORT=${APP_PORT}
+ENV HOST=0.0.0.0
+ENV PORT=8000
 
 EXPOSE 8000
 
