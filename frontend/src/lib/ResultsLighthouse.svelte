@@ -7,7 +7,6 @@
         { key: "accessibility", desc: "These checks highlight opportunities to improve the accessibility of your web app." },
         { key: "best-practices", desc: "Best practices score of the site." },
         { key: "seo", desc: "These checks ensure that your page is following basic search engine optimization advice." },
-        { key: "pwa", desc: "These checks validate the aspects of a Progressive Web App." },
     ];
 
     function formatScore(value, mult = 100, decimal = 0) {
@@ -28,9 +27,11 @@
 
     function extract_and_sort_audits(refs, audits) {
         let audits_sorted = [];
-        for (const ref of refs) {
-            if (audits[ref.id].score < 1) {
-                audits_sorted.push(audits[ref.id]);
+        if (refs) {
+            for (const ref of refs) {
+                if (audits[ref.id].score < 1) {
+                    audits_sorted.push(audits[ref.id]);
+                }
             }
         }
         return audits_sorted.sort((a, b) => a.score - b.score);
@@ -47,11 +48,11 @@
         {#each categories as category}
             <div class="col">
                 <div class="card">
-                    <div class="card-header">{results.categories[category.key].title}</div>
+                    <div class="card-header">{results.categories[category.key]?.title}</div>
                     <div class="card-body">
                         <h2>
-                            <span class="badge text-bg-{scoreColor(results.categories[category.key].score)}">
-                                {formatScore(results.categories[category.key].score)}
+                            <span class="badge text-bg-{scoreColor(results.categories[category.key]?.score)}">
+                                {formatScore(results.categories[category.key]?.score)}
                             </span>
                         </h2>
                         <p class="card-text">{category.desc}</p>
@@ -65,7 +66,7 @@
         {#each categories as category}
             <div class="col collapse" id="collapse-{category.key}">
                 <div class="my-3 card">
-                    <div class="card-header">{results.categories[category.key].title}</div>
+                    <div class="card-header">{results.categories[category.key]?.title}</div>
                     <div class="card-body">
                         <table class="table text-start">
                             <thead>
@@ -78,7 +79,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {#each extract_and_sort_audits(results.categories[category.key].auditRefs, results.audits) as audit}
+                                {#each extract_and_sort_audits(results.categories[category.key]?.auditRefs, results.audits) as audit}
                                     {#if ["numeric", "binary"].includes(audit.scoreDisplayMode)}
                                         <tr>
                                             <td>{audit.title}</td>

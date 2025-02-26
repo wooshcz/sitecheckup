@@ -21,7 +21,6 @@
                         <li class="list-group-item">Accessibility audits</li>
                         <li class="list-group-item">Best Practices audits</li>
                         <li class="list-group-item">SEO audits</li>
-                        <li class="list-group-item">PWA audits</li>
                     </ul>
                     <div class="card-body">
                         <a href="https://developer.chrome.com/docs/lighthouse/overview/" class="btn btn-primary" target="_blank">Detailed description</a>

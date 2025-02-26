@@ -4,7 +4,7 @@ import * as db from '$lib/database';
 /** @type {import('./$types').PageServerLoad} */
 export async function load({ parent }) {
     const { user } = await parent();
-    if (user) throw redirect(307, '/');
+    if (user) redirect(307, '/');
     return {
         title: 'Register'
     };
@@ -30,6 +30,6 @@ export const actions = {
         const value = Buffer.from(JSON.stringify(body)).toString('base64')
         cookies.set('jwt', value, { path: '/' });
 
-        throw redirect(307, '/');
+        redirect(307, '/');
     }
 };

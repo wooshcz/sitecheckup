@@ -5,8 +5,8 @@
   "author": "Ondrej Moravek",
   "dependencies": {
     "fast-xml-parser": "^4.5.0",
-    "lighthouse": "^12.2.1",
-    "pg": "^8.13.1"
+    "lighthouse": "^12.3.0",
+    "pg": "^8.13.3"
   },
   "license": "MIT",
   "main": "index.cjs",
