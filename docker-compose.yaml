@@ -40,7 +40,7 @@ services:
       - frontend
 
   nginx:
-    image: nginx:latest
+    image: docker.io/nginx:latest
     container_name: sitecheckup-nginx
     ports:
       - "80:80"
