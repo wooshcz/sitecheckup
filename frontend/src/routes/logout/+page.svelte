@@ -2,8 +2,14 @@
     import { onMount } from 'svelte'
     import { invalidateAll } from '$app/navigation';
 
-    /** @type {import('./$types').PageData} */
-    export let data;
+    
+    /**
+     * @typedef {Object} Props
+     * @property {import('./$types').PageData} data
+     */
+
+    /** @type {Props} */
+    let { data } = $props();
 
     onMount(() => {
         invalidateAll()

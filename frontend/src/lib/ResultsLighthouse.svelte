@@ -1,7 +1,5 @@
 <script>
-    import { element } from "svelte/internal";
-
-    export let results;
+    let { results } = $props();
     const categories = [
         { key: "performance", desc: "Performance score of the site based on the Core Web Vitals framework." },
         { key: "accessibility", desc: "These checks highlight opportunities to improve the accessibility of your web app." },

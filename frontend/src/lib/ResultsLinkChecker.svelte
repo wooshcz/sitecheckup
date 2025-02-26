@@ -1,7 +1,7 @@
 <script>
     import { onMount } from "svelte";
 
-    export let results;
+    let { results } = $props();
 
     function severityColor(severity) {
         if (severity === 0) {

@@ -1,8 +1,14 @@
 <script>
     import { enhance } from "$app/forms";
 
-    /** @type {import('./$types').ActionData} */
-    export let form;
+    
+    /**
+     * @typedef {Object} Props
+     * @property {import('./$types').ActionData} form
+     */
+
+    /** @type {Props} */
+    let { form } = $props();
 </script>
 
 <main>
@@ -17,7 +23,7 @@
                     </div>
                     <div class="form-floating mb-3">
                         <select name="type" id="input-type" class="form-select form-select-lg" required>
-                            <option selected />
+                            <option selected></option>
                             <option value="lighthouse">Lighthouse</option>
                             <option value="linkchecker">Broken Links</option>
                             <option value="testssl">SSL/TLS</option>
