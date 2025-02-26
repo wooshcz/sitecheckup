@@ -1,10 +1,16 @@
 <script>
-    /** @type {import('./$types').PageData} */
-    export let data;
+    
 
     import testssl_example1 from "$lib/assets/testssl-example1.png";
     import lighthouse_example1 from "$lib/assets/lighthouse_example1.png";
     import linkchecker_example1 from "$lib/assets/linkchecker_example1.png";
+    /**
+     * @typedef {Object} Props
+     * @property {import('./$types').PageData} data
+     */
+
+    /** @type {Props} */
+    let { data } = $props();
 </script>
 
 <main>

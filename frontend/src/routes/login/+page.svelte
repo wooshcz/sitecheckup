@@ -1,10 +1,16 @@
 <script>
-    /** @type {import('./$types').PageData} */
-    export let data;
+    
 
     import { enhance } from "$app/forms";
-    /** @type {import('./$types').ActionData} */
-    export let form;
+    
+    /**
+     * @typedef {Object} Props
+     * @property {import('./$types').PageData} data
+     * @property {import('./$types').ActionData} form
+     */
+
+    /** @type {Props} */
+    let { data, form } = $props();
 </script>
 
 <main>
