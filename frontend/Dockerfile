@@ -6,7 +6,6 @@ COPY package.json package-lock.json ./
 RUN npm install
 COPY . ./
 
-RUN ls -la && chmod +x ./.env && . ./.env
 RUN npm run build && npm ci --omit dev
 
 FROM node:22-bookworm-slim

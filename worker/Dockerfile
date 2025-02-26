@@ -13,10 +13,8 @@ WORKDIR /usr/src/worker
 COPY app .
 
 ARG testssl_version=3.0.9
-RUN pip install --break-system-packages --no-cache-dir -r requirements.txt && npm install
-
-RUN curl --output "testssl.sh-${testssl_version}.tar.gz" --silent "https://testssl.sh/testssl.sh-${testssl_version}.tar.gz" && \
-    tar -xvf testssl.sh-${testssl_version}.tar.gz && \
+RUN pip install --break-system-packages --no-cache-dir -r requirements.txt && npm install && \
+    curl --silent "https://testssl.sh/testssl.sh-${testssl_version}.tar.gz" | tar -xvfz && \
     cd testssl.sh-${testssl_version} && \
     mv bin etc testssl.sh ../ && \
     cd .. && rm -rf testssl.sh-${testssl_version}*
