@@ -40,9 +40,9 @@
                     {#if $page.data.user}
                         <li class="nav-item">
                             <a
-                                href="/profile/{$page.data.user.email}"
+                                href="/profile/{$page.data.user.name}"
                                 class="nav-link fw-bold"
-                                class:active={$page.url.pathname === "/profile/" + $page.data.user.email}>{$page.data.user.name}</a
+                                class:active={$page.url.pathname === "/profile/" + $page.data.user.name}>{$page.data.user.name}</a
                             >
                         </li>
                         <li class="nav-item">
