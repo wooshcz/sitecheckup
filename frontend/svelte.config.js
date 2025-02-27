@@ -4,9 +4,9 @@ import adapter from "@sveltejs/adapter-node";
 const config = {
 	kit: {
 		adapter: adapter(),
-		// csrf: {
-		// 	checkOrigin: false, // ⚠️ Disable CSRF protection (ONLY for development)
-		// },
+		csrf: {
+			checkOrigin: false, // ⚠️ Disable CSRF protection (ONLY for development)
+		},
 	},
 };
 
