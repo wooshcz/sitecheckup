@@ -43,8 +43,10 @@ services:
       context: proxy
       dockerfile: Dockerfile
     container_name: sitecheckup-proxy
+    env_file:
+      - proxy/.env
     ports:
-      - "80:80"
+      - "443:443"
     depends_on:
       - frontend
     deploy:
@@ -55,4 +57,6 @@ services:
         reservations:
           memory: 128M
           cpus: "0.1"
+    volumes:
+      - /opt/letsencrypt/ssl:/etc/letsencrypt:ro
     restart: always
