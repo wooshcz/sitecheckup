@@ -50,8 +50,8 @@ export async function getJob(job_id) {
 }
 
 export async function postJob(type, url, remote_ip, user_email) {
-    if (await rateLimitExceeded()) {
-        return { errors: ["Rate limit of 10 jobs per day was exceeded"] };
+    if (await rateLimitExceeded(remote_ip, user_email)) {
+        return { success: false, errors: ["Your daily quota of jobs was exceeded!"] };
     }
     console.log(`${Date().toString()}: Creating new ${type} job for ${url}`);
     const queryResponse = await client.query(
@@ -59,7 +59,7 @@ export async function postJob(type, url, remote_ip, user_email) {
             " VALUES (gen_random_uuid(), 'CREATED', now(), $1, $2, $3, $4) RETURNING job_id",
         [type, url, remote_ip, user_email],
     );
-    return queryResponse.rows[0].job_id;
+    return { success: true, jobId: queryResponse.rows[0].job_id };
 }
 
 export async function attemptLogin(email, password) {
@@ -85,12 +85,13 @@ export async function attemptLogin(email, password) {
     }
 }
 
-export async function rateLimitExceeded(remote_ip) {
+export async function rateLimitExceeded(remote_ip, user_email) {
+    const limit = user_email ? 20 : 3;
     const queryResponse = await client.query(
         "SELECT job_id FROM public.jobs WHERE remote_ip=$1 AND created > now() - interval '1 day'",
         [remote_ip],
     );
-    return queryResponse.rows.length > 10;
+    return queryResponse.rows.length > limit;
 }
 
 export async function registerUser(data) {

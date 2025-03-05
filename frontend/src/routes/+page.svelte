@@ -38,6 +38,14 @@
                 {#if form?.success}
                     <div id="alert" class="alert alert-success" role="alert">Job {form.job_id} was successfully created!</div>
                 {/if}
+
+                {#if form?.errors}
+                    <div id="alert" class="alert alert-warning" role="alert">
+                        {#each Object.keys(form?.errors) as key}
+                            {form?.errors[key]}<br />
+                        {/each}
+                    </div>
+                {/if}
             </div>
             <div class="col-4">
                 <div class="card text-bg-light mb-3">
@@ -46,7 +54,7 @@
                         <h5 class="card-title">How to use this tool?</h5>
                         <p class="card-text">
                             Just enter a full URL to the website you want to test (including protocol, port and path to a page) and click Run. The finished
-                            report will be available on the Jobs page in a few moments.
+                            report will be available on the Reports page in a few moments.
                         </p>
                         <a href="/jobs" class="card-link">See completed tests</a>
                     </div>
