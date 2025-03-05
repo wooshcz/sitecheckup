@@ -19,14 +19,26 @@ client.connect((err) => {
     }
 });
 
-export async function getJobs() {
+export async function getJobs(user_email) {
     const limit = 50;
     const offset = 0;
-    const queryResponse = await client.query(
-        "SELECT job_id, status, created, type, url FROM public.jobs order by created desc limit $1 offset $2",
-        [limit, offset],
-    );
-    return queryResponse.rows;
+    if (user_email) {
+        const queryResponse = await client.query(
+            "SELECT job_id, status, created, type, url FROM public.jobs" +
+                " WHERE user_email=$1" +
+                " ORDER BY created desc limit $2 offset $3",
+            [user_email, limit, offset],
+        );
+        return queryResponse.rows;
+    } else {
+        const queryResponse = await client.query(
+            "SELECT job_id, status, created, type, url FROM public.jobs" +
+                " WHERE user_email IS NULL" +
+                " ORDER BY created desc limit $1 offset $2",
+            [limit, offset],
+        );
+        return queryResponse.rows;
+    }
 }
 
 export async function getJob(job_id) {
@@ -37,13 +49,17 @@ export async function getJob(job_id) {
     return queryResponse.rows[0];
 }
 
-export async function postJob(type, url) {
+export async function postJob(type, url, remote_ip, user_email) {
+    if (await rateLimitExceeded(remote_ip, user_email)) {
+        return { success: false, errors: ["Your daily quota of jobs was exceeded!"] };
+    }
     console.log(`${Date().toString()}: Creating new ${type} job for ${url}`);
     const queryResponse = await client.query(
-        "INSERT INTO public.jobs (job_id, status, created, type, url) VALUES (gen_random_uuid(), 'CREATED', CURRENT_TIMESTAMP, $1, $2) RETURNING job_id",
-        [type, url],
+        "INSERT INTO public.jobs (job_id, status, created, type, url, remote_ip, user_email)" +
+            " VALUES (gen_random_uuid(), 'CREATED', now(), $1, $2, $3, $4) RETURNING job_id",
+        [type, url, remote_ip, user_email],
     );
-    return queryResponse.rows[0].job_id;
+    return { success: true, jobId: queryResponse.rows[0].job_id };
 }
 
 export async function attemptLogin(email, password) {
@@ -56,6 +72,10 @@ export async function attemptLogin(email, password) {
     }
     const match = await bcrypt.compare(password, queryResponse.rows[0].hash);
     if (match) {
+        await client.query(
+            "UPDATE public.users SET last_logged_in=now() WHERE email=$1",
+            [email],
+        );
         return {
             "name": queryResponse.rows[0].name,
             "email": queryResponse.rows[0].email,
@@ -63,6 +83,15 @@ export async function attemptLogin(email, password) {
     } else {
         return { errors: ["Username and password does not match"] };
     }
+}
+
+export async function rateLimitExceeded(remote_ip, user_email) {
+    const limit = user_email ? 20 : 3;
+    const queryResponse = await client.query(
+        "SELECT job_id FROM public.jobs WHERE remote_ip=$1 AND created > now() - interval '1 day'",
+        [remote_ip],
+    );
+    return queryResponse.rows.length > limit;
 }
 
 export async function registerUser(data) {
@@ -84,7 +113,7 @@ export async function registerUser(data) {
     const hash = bcrypt.hashSync(data.password, saltRounds);
     if (hash) {
         await client.query(
-            "INSERT INTO public.users (email, name, hash) VALUES ($1, $2, $3)",
+            "INSERT INTO public.users (email, name, hash, created) VALUES ($1, $2, $3, now())",
             [data.email, data.name, hash],
         );
         return { email: data.email, name: data.name };
@@ -96,8 +125,8 @@ export async function registerUser(data) {
 export async function getProfile(profile_name) {
     const queryResponse = await client.query(
         "SELECT u.*,count(j.job_id) AS count_of_jobs FROM public.users u" +
-            " LEFT JOIN public.jobs j ON (u.email = j.user_email)" + 
-            " WHERE u.name::varchar=$1" + 
+            " LEFT JOIN public.jobs j ON (u.email = j.user_email)" +
+            " WHERE u.name::varchar=$1" +
             " GROUP BY u.email",
         [profile_name],
     );
