@@ -18,7 +18,7 @@
             <div class="col-8">
                 <form method="POST" use:enhance>
                     <div class="form-floating mb-3">
-                        <input name="url" placeholder="www.example.org" id="input-url" class="form-control" required />
+                        <input name="url" type="url" value="https://" id="input-url" class="form-control" required />
                         <label for="input-url">URL to test</label>
                     </div>
                     <div class="form-floating mb-3">

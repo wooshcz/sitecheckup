@@ -37,7 +37,7 @@
                         <a class="nav-link" class:active={$page.url.pathname === "/examples"} href="/examples">Examples</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" class:active={$page.url.pathname === "/jobs"} href="/jobs">Results</a>
+                        <a class="nav-link" class:active={$page.url.pathname === "/reports"} href="/reports">Reports</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" class:active={$page.url.pathname === "/about"} href="/about">About</a>
@@ -51,9 +51,6 @@
                                 class="nav-link fw-bold"
                                 class:active={$page.url.pathname === "/profile/" + $page.data.user.name}>{$page.data.user.name}</a
                             >
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" class:active={$page.url.pathname === "/jobs"} href="/jobs">Results</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" class:active={$page.url.pathname === "/settings"} href="/settings">Settings</a>

@@ -18,7 +18,7 @@
             {#each items as item, i}
                 <tr>
                     <td>{i + 1}</td>
-                    <td><a href="/jobs/{item.job_id}">{item.job_id}</a></td>
+                    <td><a href="/reports/{item.job_id}">{item.job_id}</a></td>
                     <td>{item.type}</td>
                     <td>{item.url}</td>
                     <td>{item.created}</td>
