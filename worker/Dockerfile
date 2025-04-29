@@ -12,7 +12,7 @@ WORKDIR /usr/src/worker
 
 COPY app .
 
-ARG testssl_version=3.0.9
+ARG testssl_version=3.2.0
 RUN pip install --break-system-packages --no-cache-dir -r requirements.txt && npm install
 RUN curl --silent "https://testssl.sh/testssl.sh-${testssl_version}.tar.gz" | tar xvz && \
     cd testssl.sh-${testssl_version} && \
