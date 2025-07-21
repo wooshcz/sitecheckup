@@ -32,11 +32,11 @@
                     <td
                     >{data.item.type}
                     {#if data.item.type == "lighthouse"}
-                    {data.item.results.lighthouseVersion}
+                    {data.item.results?.lighthouseVersion}
                     {:else if data.item.type == "testssl"}
-                    {data.item.results.version}
+                    {data.item.results?.version}
                     {:else if data.item.type == "linkchecker"}
-                    {data.item.results.version}
+                    {data.item.results?.version}
                     {/if}
                 </td>
             </tr>

@@ -56,7 +56,7 @@
                             Just enter a full URL to the website you want to test (including protocol, port and path to a page) and click Run. The finished
                             report will be available on the Reports page in a few moments.
                         </p>
-                        <a href="/jobs" class="card-link">See completed tests</a>
+                        <a href="/reports" class="card-link">See completed tests</a>
                     </div>
                 </div>
                 <div class="card mb-3">
