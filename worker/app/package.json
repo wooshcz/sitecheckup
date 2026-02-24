@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "author": "Ondrej Moravek",
   "dependencies": {
-    "fast-xml-parser": "^5.3.4",
+    "fast-xml-parser": "^5.3.6",
     "lighthouse": "^12.8.0",
     "pg": "^8.16.3"
   },
